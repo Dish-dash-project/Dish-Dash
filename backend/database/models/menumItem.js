@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Restaurant = sequelize.define('Restaurant', {
+    const MenuItem = sequelize.define('MenuItem', {
       name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -7,9 +7,13 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT
       },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
       imageUrl: {
         type: DataTypes.TEXT
       }
     });
-    return Restaurant;
+    return MenuItem;
   };

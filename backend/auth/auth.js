@@ -18,7 +18,7 @@ console.log("token verify ",token);
     req.user = decoded;  
     next();  
   } catch (error) {
-    console.log("err",error)
+    throw error
     return res.status(403).json({ message: 'Invalid or expired token' });
   }
 };

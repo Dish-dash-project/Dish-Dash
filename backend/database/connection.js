@@ -96,5 +96,6 @@ db.Delivery.belongsTo(db.Location);
 // }).catch((error) => {
 //     console.error('Error syncing database:', error);
 // });
-
-module.exports = db;
+// require('./seeds');
+module.exports = db
+  

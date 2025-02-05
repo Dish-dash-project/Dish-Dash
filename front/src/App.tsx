@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Login, Register } from './FeaturesAuth/auth';
 import { useSelector } from 'react-redux';
+import  HomeCustomer  from './components/customer/customer_homPage';
 import { RootState } from './store/store';
 
 function App() {
@@ -13,7 +14,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<div>Welcome to Dashboard</div>} />
+        <Route path="/home_customer" element={<HomeCustomer />} />
+        <Route path="/dashboard" element={<div>Welcome to Dashboard
+          
+        </div>} />
       </Routes>
     </Router>
   );

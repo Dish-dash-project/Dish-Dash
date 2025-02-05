@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import axios from 'axios';
+
+
 
 interface User {
   id: number;
@@ -54,7 +57,10 @@ export const registerUser = createAsyncThunk(
   async (credentials: RegisterCredentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('http://localhost:3000/api/users/register', credentials);
+    
       return response.data;
+
+
     } catch (error: any) {
       console.error("Registration error:", error.response?.data || error.message);
       return rejectWithValue(error.response?.data?.message || 'Registration failed');

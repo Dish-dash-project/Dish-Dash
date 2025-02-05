@@ -1,27 +1,38 @@
 import { Heart } from "lucide-react"
+import { useState, useEffect } from "react"
 
-const dishes = [
-  {
-    name: "Fish Burger",
-    price: 5.59,
-    image: "/placeholder.svg?height=200&width=200",
-    discount: 15,
-  },
-  {
-    name: "Beef Burger",
-    price: 5.59,
-    image: "/placeholder.svg?height=200&width=200",
-    discount: 15,
-  },
-  {
-    name: "Cheese Burger",
-    price: 5.59,
-    image: "/placeholder.svg?height=200&width=200",
-    discount: 15,
-  },
-]
+interface Dish {
+  name: string
+  price: number
+  image: string
+  discount?: number
+  rating?: number
+}
 
 export function PopularDishes() {
+  const [dishes, setDishes] = useState<Dish[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchDishes = async () => {
+      try {
+        const response = await fetch('/api/popular-dishes') // Adjust this endpoint to match your API
+        const data = await response.json()
+        setDishes(data)
+      } catch (error) {
+        console.error('Error fetching popular dishes:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchDishes()
+  }, [])
+
+  if (isLoading) {
+    return <div>Loading...</div> // Add proper loading state UI
+  }
+
   return (
     <section className="mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -68,4 +79,3 @@ export function PopularDishes() {
     </section>
   )
 }
-

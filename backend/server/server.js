@@ -1,7 +1,7 @@
 const express = require('express');
 const PORT = 3000;
 const app = express();
-const cors=require("cors")
+
 const seedDatabase = require('../database/seeds');
 // seedDatabase()
 const {db}=require("../database/connection")
@@ -18,12 +18,20 @@ async function initializeDatabase() {
 }
 // initializeDatabase()
 
+const cors = require("cors");
+
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 // server configuration
 // make the server listen to requests
+require('dotenv').config();
+const userRoutes = require("../routes/user");
+
+app.use("/api/users", userRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running at: http://localhost:${PORT}/`);
 });
+module.exports = app;
 module.exports=app  

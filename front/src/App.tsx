@@ -1,12 +1,22 @@
-import Navbar from "../src/Components/Navbar"
-function App() {
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Login, Register } from './FeaturesAuth/auth';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
 
+function App() {
+  const { token } = useSelector((state: RootState) => state.auth);
 
   return (
-    <div>
-   <Navbar/>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<div>Welcome to Dashboard</div>} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { models } = require('./connection');
+const db= require('./connection');
 
 async function seedDatabase() {
     try {
@@ -14,7 +14,7 @@ async function seedDatabase() {
             Location,
             Address,
             Delivery
-        } = models;
+        } = db
 
         // Create Users with different roles
         const hashedPassword = await bcrypt.hash('password123', 10);

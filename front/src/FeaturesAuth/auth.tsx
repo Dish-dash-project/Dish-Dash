@@ -23,37 +23,11 @@ export const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser(credentials));
-    var token = localStorage.getItem('token');
-    try {
-      var response = await axios.get('http://localhost:3000/api/users/current', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })}catch(err){
-        throw err
-      }
-
-    console.log(response.data);
-
-    if (response.data.role === 'CUSTOMER') {
-      navigate('/home_customer');
-      return
-    }else if (response.data.role === 'RESTAURANT_OWNER') {
-      navigate('/home_restaurant_owner');
-      return
-    }else if (response.data.role === 'DRIVER') {
+    const resultAction = await dispatch(loginUser(credentials));
+    if (loginUser.fulfilled.match(resultAction)) {
       navigate('/home_driver');
-      return
     }
-    else{
-      console.log('error');
-    }
-   
-
   };
-
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">

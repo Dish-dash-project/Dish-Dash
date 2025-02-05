@@ -4,7 +4,7 @@ const app = express();
 
 const seedDatabase = require('../database/seeds');
 // seedDatabase()
-const {db}=require("../database/connection")
+const db=require("../database/connection")
 
 
 async function initializeDatabase() {

@@ -1,4 +1,4 @@
-const { Category } = require('../database/models/category'); // Importing the Category model
+const { Category } = require('../database/connection'); // Importing the Category model
 
 // Add a new category
 exports.addCategory = async (req, res) => {
@@ -17,6 +17,14 @@ exports.addCategory = async (req, res) => {
 
 // Get all categories
 exports.getAllCategories = async (req, res) => {
+    try {
+        const categories = await Category.findAll();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching categories", error: error.message });
+    }
+};
+exports.getAll = async (req, res) => {
     try {
         const categories = await Category.findAll();
         res.status(200).json(categories);

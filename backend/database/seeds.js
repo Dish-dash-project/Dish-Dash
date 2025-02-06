@@ -81,29 +81,34 @@ async function seedDatabase() {
         // Create Categories
         const categories = await Category.bulkCreate([
             {
-                name: 'Italian',
+                name: 'Bakery',
                 description: 'Traditional Italian cuisine',
-                imageUrl: 'https://example.com/categories/italian.jpg'
+                imageUrl: '🥖'
             },
             {
-                name: 'Japanese',
+                name: 'Burger',
                 description: 'Authentic Japanese dishes',
-                imageUrl: 'https://example.com/categories/japanese.jpg'
+                imageUrl: '🍔'
             },
             {
-                name: 'Mexican',
+                name: 'Beverage',
                 description: 'Spicy Mexican favorites',
-                imageUrl: 'https://example.com/categories/mexican.jpg'
+                imageUrl: '🥤'
             },
             {
-                name: 'Indian',
+                name: 'Chicken',
                 description: 'Flavorful Indian cuisine',
-                imageUrl: 'https://example.com/categories/indian.jpg'
+                imageUrl: '🍗'
             },
             {
-                name: 'Chinese',
+                name: 'Pizza',
                 description: 'Traditional Chinese dishes',
-                imageUrl: 'https://example.com/categories/chinese.jpg'
+                imageUrl: '🍕'
+            },
+            {
+                name: 'Seafood',
+                description: 'Traditional Chinese dishes',
+                imageUrl: '🦐'
             }
         ]);
 
@@ -172,7 +177,7 @@ async function seedDatabase() {
                 description: 'Classic tomato and mozzarella pizza',
                 price: 12.99,
                 restaurantId: restaurants[0].id,
-                imageUrl: 'https://example.com/menu/pizza.jpg',
+                imageUrl: 'https://tse3.mm.bing.net/th?id=OIP.4NRf4CcWlDDAVNCqefmG3gHaJ4&pid=Api&P=0&h=180',
                 category: 'Pizza',
                 isAvailable: true
             },
@@ -181,7 +186,7 @@ async function seedDatabase() {
                 description: 'Creamy pasta with pancetta',
                 price: 14.99,
                 restaurantId: restaurants[0].id,
-                imageUrl: 'https://example.com/menu/pasta.jpg',
+                imageUrl: 'https://tse1.mm.bing.net/th?id=OIP.3MJODhMHPQg6v11AKki79QHaFj&pid=Api&P=0&h=180',
                 category: 'Pasta',
                 isAvailable: true
             },
@@ -191,7 +196,7 @@ async function seedDatabase() {
                 description: 'Crab, avocado, and cucumber roll',
                 price: 8.99,
                 restaurantId: restaurants[1].id,
-                imageUrl: 'https://example.com/menu/sushi1.jpg',
+                imageUrl: 'https://tse4.mm.bing.net/th?id=OIP.atPuef-O1VVh90zcq_h46gHaE8&pid=Api&P=0&h=180',
                 category: 'Sushi',
                 isAvailable: true
             },
@@ -200,7 +205,7 @@ async function seedDatabase() {
                 description: 'Fresh salmon over rice',
                 price: 6.99,
                 restaurantId: restaurants[1].id,
-                imageUrl: 'https://example.com/menu/sushi2.jpg',
+                imageUrl: 'https://tse1.mm.bing.net/th?id=OIP.0ukoC2w_WocLEBLQkeFtaQHaFj&pid=Api&P=0&h=180',
                 category: 'Sushi',
                 isAvailable: true
             },
@@ -210,7 +215,7 @@ async function seedDatabase() {
                 description: 'Three authentic street tacos',
                 price: 9.99,
                 restaurantId: restaurants[2].id,
-                imageUrl: 'https://example.com/menu/tacos.jpg',
+                imageUrl: 'https://tse2.mm.bing.net/th?id=OIP.UWBG4IvWYrhX7y_521MEbwHaLH&pid=Api&P=0&h=180',
                 category: 'Tacos',
                 isAvailable: true
             },
@@ -219,7 +224,7 @@ async function seedDatabase() {
                 description: 'Fresh made guacamole with tortilla chips',
                 price: 7.99,
                 restaurantId: restaurants[2].id,
-                imageUrl: 'https://example.com/menu/guacamole.jpg',
+                imageUrl: 'https://tse4.mm.bing.net/th?id=OIP.6325mav4-uab53iBFZ20sAHaGk&pid=Api&P=0&h=180',
                 category: 'Appetizers',
                 isAvailable: true
             }

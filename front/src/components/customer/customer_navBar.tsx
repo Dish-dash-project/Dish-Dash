@@ -1,6 +1,34 @@
 import { Bell, MessageSquare, Search, Settings } from "lucide-react"
+import { filterProductByQuery } from '../../store/slice/filterProductByQuery.ts';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { AppDispatch } from "../../store/store.tsx";
+import { useSelector } from 'react-redux';
 
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+}
+
+interface ProductState {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+  filteredProducts: Product[];
+  product: Product | null;
+}
 export function Navbar() {
+  const dispatch = useDispatch<AppDispatch>(); // Add AppDispatch type
+  const [query, setQuery] = useState("");
+  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+          e.preventDefault();
+          dispatch(filterProductByQuery(query));
+          setQuery(""); // Clear the input after search
+      }
+  };
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
@@ -10,6 +38,9 @@ export function Navbar() {
         <div className="relative w-[400px]">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
             placeholder="What do you want to eat today..."
             className="w-full rounded-full bg-white pl-10 pr-4 py-2 text-sm outline-none border border-gray-200"
           />

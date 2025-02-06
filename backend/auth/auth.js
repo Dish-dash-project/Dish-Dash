@@ -19,7 +19,7 @@ console.log("token verify ",token);
     next();  
   } catch (error) {
     throw error
-    return res.status(403).json({ message: 'Invalid or expired token' });
+ 
   }
 };
 

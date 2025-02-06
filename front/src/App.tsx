@@ -2,11 +2,15 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import { useSelector } from 'react-redux';
 import HomeCustomer from './components/customer/customer_homPage';
+import HomeCustomer from './components/customer/customer_homPage';
 import { RootState } from './store/store';
+import HomePage from './components/Driver/HomePage';
+import Profile from './components/Driver/Profile';
 import HomePage from './components/DRIVER/HomePage';
 import Profile from './components/DRIVER/Profile';
 import AuthPersist from './FeaturesAuth/AuthPersist';
 import { AuthPage } from './FeaturesAuth/auth';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import Map from './components/googlemaps/HomePage';
 

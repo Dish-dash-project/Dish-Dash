@@ -19,14 +19,14 @@ const io = socketIo(server, {
   }
 });
 
-// const seedDatabase = require('../database/seeds');
+const seedDatabase = require('../database/seeds');
 // seedDatabase()
 const db=require("../database/connection")
 
 
 async function initializeDatabase() {
   try {
-      await db.connection.sync({force: true});
+  
       await seedDatabase();
       console.log('Database initialized successfully');
   } catch (error) {
@@ -63,8 +63,19 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 // make the server listen to requests
 require('dotenv').config();
 const userRoutes = require("../routes/user");
+const restaurantRoutes=require("../routes/restaurant")
+const categoryRoutes=require("../routes/category")
+const menuRoutes=require("../routes/menu")
+const orderRoutes = require('../routes/order');
+const orderItemRoutes = require('../routes/orderItem');
+
 
 app.use("/api/users", userRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/menu", menuRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/order', orderItemRoutes);
 
 // Add these lines after your existing routes
 const chatRoutes = require('../routes/chat');

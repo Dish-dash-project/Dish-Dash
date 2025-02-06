@@ -29,9 +29,19 @@ app.use(cors());
 // make the server listen to requests
 require('dotenv').config();
 const userRoutes = require("../routes/user");
+const restaurantRoutes=require("../routes/restaurant")
+const categoryRoutes=require("../routes/category")
+const menuRoutes=require("../routes/menu")
+const orderRoutes = require('../routes/order');
+const orderItemRoutes = require('../routes/orderItem');
+
 
 app.use("/api/users", userRoutes);
-
+app.use("/api/category", categoryRoutes);
+app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/menu", menuRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/order', orderItemRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at: http://localhost:${PORT}/`);

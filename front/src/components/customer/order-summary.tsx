@@ -1,60 +1,68 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/store';
+import { removeItem, updateQuantity } from '../../store/slice/orderSlice';
 
-interface OrderItem {
+interface MenuItem {
   name: string;
-  price: number;
-  quantity: number;
-  image?: string;
+  imageUrl: string;
 }
 
-interface UserAddress {
-  street: string;
-  details: string;
+interface item {
+  id: number;
+  price: number; // Changed from string to number
+  quantity: number;
+  menuItemId?: number;
+  MenuItem: {
+    name: string;
+    imageUrl: string;
+  };
 }
 
 export function OrderSummary() {
-    const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    const [userAddress, setUserAddress] = useState<UserAddress | null>(null);
-    const [balance, setBalance] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [serviceCharge] = useState(1.00); // Could also come from backend
+    const dispatch = useDispatch();
+    const { items, loading, error } = useSelector((state: RootState) => state.order);
+    const [serviceCharge] = useState(1.00);
+    const [updating, setUpdating] = useState<number | null>(null); // Track which item is being updated
 
     useEffect(() => {
-        const fetchOrderData = async () => {
-            try {
-                // Fetch order items
-                const orderResponse = await fetch('/api/order-items');
-                const orderData = await orderResponse.json();
-                setOrderItems(orderData);
-
-                // Fetch user address
-                const addressResponse = await fetch('/api/user-address');
-                const addressData = await addressResponse.json();
-                setUserAddress(addressData);
-
-                // Fetch user balance
-                const balanceResponse = await fetch('/api/user-balance');
-                const balanceData = await balanceResponse.json();
-                setBalance(balanceData.balance);
-            } catch (error) {
-                console.error('Error fetching order data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchOrderData();
     }, []);
 
+    const fetchOrderData = async () => {
+        try {
+            const orderResponse = await axios.get(`http://localhost:3000/api/order/`);
+            dispatch(updateQuantity({ id: orderResponse.data.id, quantity: orderResponse.data.quantity }));
+        } catch (error) {
+            console.error('Error fetching order data:', error);
+        } finally {
+            setUpdating(null);
+        }
+    };
+
+    const updateItemQuantity = (itemId: number, change: number) => {
+        const item = items.find((item) => item.id === itemId);
+        if (!item) return;
+
+        const newQuantity = item.quantity + change;
+
+        if (newQuantity <= 0) {
+            dispatch(removeItem(itemId));
+        } else {
+            dispatch(updateQuantity({ id: itemId, quantity: newQuantity }));
+        }
+    };
+
     const calculateTotal = () => {
-        const itemsTotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const itemsTotal = items.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
         return itemsTotal + serviceCharge;
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Add proper loading state UI
+        return <div>Loading...</div>;
     }
-
+    
     return (
       <aside className="w-[320px] bg-white p-6">
         <h2 className="text-xl font-bold mb-6">Your Balance</h2>
@@ -70,39 +78,50 @@ export function OrderSummary() {
               </button>
             </div>
           </div>
-          <div className="text-2xl font-bold text-white mb-2">${balance.toFixed(3)}</div>
+          <div className="text-2xl font-bold text-white mb-2">${111111}</div>
         </div>
-
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold">Your Address</h3>
-            <button className="text-[#FFB800] text-sm">Change</button>
-          </div>
-          <div className="bg-gray-50 rounded-xl p-4">
-            <p className="font-medium mb-1">{userAddress?.street}</p>
-            <p className="text-sm text-gray-500">{userAddress?.details}</p>
-            <div className="flex gap-2 mt-2">
-              <button className="text-xs bg-white px-3 py-1 rounded border">Add Details</button>
-              <button className="text-xs bg-white px-3 py-1 rounded border">Add Note</button>
-            </div>
-          </div>
-        </div>
+        <h2 className="text-xl font-bold mb-6">Order Summary</h2>
 
         <div>
           <h3 className="font-semibold mb-4">Order Menu</h3>
           <div className="space-y-4 mb-6">
-            {orderItems.map((item) => (
-              <div key={item.name} className="flex items-center gap-3">
+            {items.map((item) => (
+              <div key={item.id} className="flex items-center gap-3">
                 <img 
-                  src={item.image || "/placeholder.svg?height=50&width=50"} 
-                  alt={item.name} 
-                  className="w-12 h-12 rounded-lg" 
+                  src={item.MenuItem.imageUrl} 
+                  alt={item.MenuItem.name} 
+                  className="w-12 h-12 rounded-lg object-cover" 
                 />
                 <div className="flex-1">
-                  <h4 className="font-medium">{item.name}</h4>
-                  <p className="text-sm text-gray-500">x{item.quantity}</p>
+                  <h4 className="font-medium">{item.MenuItem.name}</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <button 
+                      onClick={() => updateItemQuantity(item.id, -1)}
+                      disabled={updating === item.id}
+                      className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 disabled:opacity-50"
+                    >
+                      -
+                    </button>
+                    <span className="text-sm text-gray-500 min-w-[20px] text-center">
+                      {updating === item.id ? '...' : item.quantity}
+                    </span>
+                    <button 
+                      onClick={() => updateItemQuantity(item.id, 1)}
+                      disabled={updating === item.id}
+                      className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 disabled:opacity-50"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-                <span className="text-[#FFB800] font-bold">+${item.price}</span>
+                <div className="text-right">
+                  <span className="text-[#FFB800] font-bold block">
+                      ${(parseFloat(item.price) * item.quantity).toFixed(2)}
+                    </span>
+                  <span className="text-xs text-gray-500">
+                    ${parseFloat(item.price).toFixed(2)} each
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -119,15 +138,15 @@ export function OrderSummary() {
           </div>
 
           <button 
-            className="w-full bg-[#FFB800] text-white py-3 rounded-xl mb-4"
+            className="w-full bg-[#FFB800] text-white py-3 rounded-xl mb-4 hover:bg-[#e6a600] transition-colors"
             onClick={() => {
-              // Add checkout logic here
               console.log('Processing checkout...');
             }}
           >
             Checkout
           </button>
-          <button className="w-full flex items-center justify-center gap-2 border rounded-xl py-3">
+          
+          <button className="w-full flex items-center justify-center gap-2 border rounded-xl py-3 hover:bg-gray-50 transition-colors">
             <span>🎫</span>
             Have a coupon code?
           </button>

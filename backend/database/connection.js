@@ -62,7 +62,10 @@ db.Category.hasMany(db.MenuItem);
 // MenuItem relationships
 db.MenuItem.belongsTo(db.Category);
 db.MenuItem.belongsTo(db.Restaurant);
+
 db.MenuItem.hasMany(db.OrderItem);
+db.OrderItem.belongsTo(db.MenuItem);
+
 
 // Order relationships
 db.Order.belongsTo(db.User, { as: 'customer' });

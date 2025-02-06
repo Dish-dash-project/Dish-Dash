@@ -1,25 +1,72 @@
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import { Login, Register } from './FeaturesAuth/auth';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import  HomeCustomer  from './components/customer/customer_homPage';
+import { useSelector } from 'react-redux';
+import HomeCustomer from './components/customer/customer_homPage';
+import { RootState } from './store/store';
+import HomePage from './components/Driver/HomePage';
+import Profile from './components/Driver/Profile';
+import AuthPersist from './FeaturesAuth/AuthPersist';
+import { AuthPage } from './FeaturesAuth/auth';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
+// Create a ProtectedRoute component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { token, user, isLoading } = useSelector((state: RootState) => state.auth);
+  
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+  
+  // Redirect to login if not authenticated
+  if (!token || !user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+};
 
 function App() {
-
-
   return (
-    <Router>
-      <Routes>
-        
-        <Route path="/" element={<Login />} />
-        
-        <Route path="/register" element={<Register />} />
-        <Route path="/home_customer" element={<HomeCustomer />} />
-        <Route path="/dashboard" element={<div>Welcome to Dashboard
-          
-        </div>} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <AuthPersist>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home_driver" />} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/register" element={<AuthPage />} />
+            <Route 
+              path="/home_customer" 
+              element={
+                <ProtectedRoute>
+                  <HomeCustomer />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/home_driver" 
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </AuthPersist>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

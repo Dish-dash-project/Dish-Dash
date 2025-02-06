@@ -27,9 +27,9 @@ interface Restaurant {
 
 
  
-  const { filteredProducts, loading ,error} = useSelector((state: RootState) => state.filterProductByQuery);
+  const { filteredProducts, loading } = useSelector((state: RootState) => state.filterProductByQuery);
   const { categories } = useSelector((state: RootState) => state.category);
-  console.log('filteredProducts', filteredProducts)
+  console.log('categories', categories)
   const [showAll, setShowAll] = useState(false); // New state to toggle between all and filtered results
   const [ordering, setOrdering] = useState<number | null>(null); // Track which item is being ordered
 
@@ -37,10 +37,9 @@ interface Restaurant {
 
 
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(filterProduct());
     dispatch(fetchCategories());
   }, [dispatch]);

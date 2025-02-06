@@ -21,5 +21,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT
       }
     });
+
+    User.associate = (models) => {
+      User.belongsToMany(models.Chat, {
+        through: 'ChatParticipants',
+        as: 'chats'
+      });
+      User.hasMany(models.Message, {
+        foreignKey: 'senderId',
+        as: 'sentMessages'
+      });
+    };
+
     return User;
   };

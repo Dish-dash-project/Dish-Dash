@@ -4,25 +4,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { removeItem, updateQuantity } from '../../store/slice/orderSlice';
 
-interface MenuItem {
-  name: string;
-  imageUrl: string;
-}
+// interface MenuItem {
+//   name: string;
+//   imageUrl: string;
+// }
 
-interface item {
-  id: number;
-  price: number; // Changed from string to number
-  quantity: number;
-  menuItemId?: number;
-  MenuItem: {
-    name: string;
-    imageUrl: string;
-  };
-}
+// interface item {
+//   id: number;
+//   price: number; // Changed from string to number
+//   quantity: number;
+//   menuItemId?: number;
+//   MenuItem: {
+//     name: string;
+//     imageUrl: string;
+//   };
+// }
 
 export function OrderSummary() {
     const dispatch = useDispatch();
-    const { items, loading, error } = useSelector((state: RootState) => state.order);
+    const { items, loading} = useSelector((state: RootState) => state.order);
     const [serviceCharge] = useState(1.00);
     const [updating, setUpdating] = useState<number | null>(null); // Track which item is being updated
 
@@ -54,8 +54,8 @@ export function OrderSummary() {
         }
     };
 
-    const calculateTotal = () => {
-        const itemsTotal = items.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+    const calculateTotal:any = () => {
+        const itemsTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         return itemsTotal + serviceCharge;
     };
 
@@ -78,14 +78,14 @@ export function OrderSummary() {
               </button>
             </div>
           </div>
-          <div className="text-2xl font-bold text-white mb-2">${111111}</div>
+          <div className="text-2xl font-bold text-white mb-2">${250}</div>
         </div>
         <h2 className="text-xl font-bold mb-6">Order Summary</h2>
 
         <div>
           <h3 className="font-semibold mb-4">Order Menu</h3>
           <div className="space-y-4 mb-6">
-            {items.map((item) => (
+            {items.map((item:any) => (
               <div key={item.id} className="flex items-center gap-3">
                 <img 
                   src={item.MenuItem.imageUrl} 

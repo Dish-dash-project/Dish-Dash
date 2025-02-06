@@ -44,6 +44,7 @@ export function Sidebar() {
         )}
       >
         <div className="p-4">
+            
           <div
             className={clsx("flex items-center gap-2 overflow-hidden", expanded ? "justify-start" : "justify-center")}
           >

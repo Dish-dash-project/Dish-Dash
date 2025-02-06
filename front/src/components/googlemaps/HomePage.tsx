@@ -40,7 +40,7 @@ function App() {
           }
         ]
       });
-
+      
       const renderer = new google.maps.DirectionsRenderer({
         map: newMap,
         suppressMarkers: false,

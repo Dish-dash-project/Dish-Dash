@@ -69,7 +69,7 @@ const menuRoutes=require("../routes/menu")
 const orderRoutes = require('../routes/order');
 const orderItemRoutes = require('../routes/orderItem');
 const advancedSearchRouter = require('../routes/advencedSearch'); // Import the advanced search router
-
+const addressRoutes = require('../routes/address');
 
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
@@ -78,7 +78,7 @@ app.use("/api/menu", menuRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/order', orderItemRoutes);
 app.use('/api/advanced-search', advancedSearchRouter);
-
+app.use('/api/address', addressRoutes);
 // Add these lines after your existing routes
 const chatRoutes = require('../routes/chat');
 const messageRoutes = require('../routes/message');

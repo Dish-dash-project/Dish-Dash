@@ -1,5 +1,6 @@
 import { Bell, MessageSquare, Search, Settings } from "lucide-react"
 import { filterProductByQuery } from '../../store/slice/filterProductByQuery.ts';
+import { advancedSearch } from '../../store/slice/advancedSearchSlice'; 
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { AppDispatch } from "../../store/store.tsx";
@@ -25,7 +26,7 @@ export function Navbar() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
           e.preventDefault();
-          dispatch(filterProductByQuery(query));
+          dispatch(advancedSearch({ menuName: query }))
           setQuery(""); // Clear the input after search
       }
   };

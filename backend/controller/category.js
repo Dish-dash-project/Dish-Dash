@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { Category } = require('../database/connection'); // Importing the Category model
 
 // Add a new category
@@ -37,7 +38,7 @@ exports.getAll = async (req, res) => {
 exports.getOneCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const category = await Category.findByPk(id);
+        const category = await Category.findAll({where:{id}});
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }

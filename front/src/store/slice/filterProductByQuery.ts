@@ -33,7 +33,6 @@ export const filterProduct = createAsyncThunk<Product[], void, { rejectValue: st
   async (_, { rejectWithValue }) => {
     try {
       const response = await (await axios.get(`http://localhost:3000/api/menu/`))
-      console.log('responseaaaaaaaaaa', response.data)
       return response.data; // Ensure you're returning the data here
 
     } catch (error: any) {
@@ -51,8 +50,6 @@ const productSlice = createSlice({
  
   
       const query = action.payload.toLowerCase();
-      console.log('query', query);
-      console.log('state.products', state.products)
       state.filteredProducts = query
       
 

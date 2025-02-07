@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const { Category } = require('../database/connection'); // Importing the Category model
 
 // Add a new category

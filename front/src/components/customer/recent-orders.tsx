@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store/store.tsx';
 import { addItem } from '../../store/slice/orderSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store.tsx';
-import { fetchCategories } from "../../store/slice/categorySlice";
+import { fetchCategories } from "../../store/slice/categorySlice.ts";
 
 
 interface Restaurant {
@@ -29,7 +29,6 @@ interface Restaurant {
  
   const { filteredProducts, loading } = useSelector((state: RootState) => state.filterProductByQuery);
   const { categories } = useSelector((state: RootState) => state.category);
-  console.log('categories', categories)
   const [showAll, setShowAll] = useState(false); // New state to toggle between all and filtered results
   const [ordering, setOrdering] = useState<number | null>(null); // Track which item is being ordered
 
@@ -42,7 +41,7 @@ interface Restaurant {
   useEffect(() => {
     dispatch(filterProduct());
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, []);
   
 
 

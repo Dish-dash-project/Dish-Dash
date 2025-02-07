@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchCurrentUser } from '../store/slice/authslice';
-import LoadingSpinner from '../Components/common/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const AuthPersist = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch<AppDispatch>();

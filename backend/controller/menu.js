@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { MenuItem } = require('../database/connection'); // Importing the MenuItem model
 
 // Add a new menu item
@@ -29,7 +30,7 @@ exports.getAllMenuItems = async (req, res) => {
 exports.getOneMenuItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const menuItem = await MenuItem.findByPk(id);
+        const menuItem = await MenuItem.findAll({where:{id}});
         if (!menuItem) {
             return res.status(404).json({ message: "Menu item not found" });
         }

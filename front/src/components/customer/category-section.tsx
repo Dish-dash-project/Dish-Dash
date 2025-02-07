@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, fetchCategoryById } from "../../store/slice/categorySlice";
 import { AppDispatch, RootState } from "../../store/store.tsx";
+import { setSelectedCategory } from "../../store/slice/categorySlice.ts";
+import { advancedSearch } from '../../store/slice/advancedSearchSlice'; // Import advancedSearch
 
 
 export function CategorySection() {
@@ -13,6 +15,9 @@ export function CategorySection() {
   }, [dispatch]);
 
   const handleCategoryClick = (id: number) => {
+    
+    dispatch(advancedSearch({ categoryId: id })); // Dispatch advanced search with category ID
+    // Add this line
     dispatch(fetchCategoryById(id))
       .then((action) => {
         console.log('Category data:', action.payload);

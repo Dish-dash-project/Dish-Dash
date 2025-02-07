@@ -5,13 +5,17 @@ interface CategoryState {
   categories: Array<{ imageUrl: string; name: string; id: number }>;
   loading: boolean;
   error: string | null;
+  selectedCategoryId: number | null; // Add this line
+
 }
 
 const initialState: CategoryState = {
   categories: [],
   loading: false,
   error: null,
+  selectedCategoryId: null, // Add this line
 };
+
 
 export const fetchCategories = createAsyncThunk(
   'category/fetchCategories',
@@ -24,7 +28,7 @@ export const fetchCategories = createAsyncThunk(
 export const fetchCategoryById = createAsyncThunk(
   'category/fetchCategoryById',
   async (id: number) => {
-    const response = await axios.get(`http://localhost:3000/api/category/${id}`);
+    const response = await axios.get(`http://localhost:3000/api/menu/${id}`);
     return response.data;
   }
 );
@@ -32,10 +36,15 @@ export const fetchCategoryById = createAsyncThunk(
 const categorySlice = createSlice({
   name: 'category',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedCategory: (state, action) => {
+      state.selectedCategoryId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.pending, (state) => {
+
         state.loading = true;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
@@ -50,10 +59,11 @@ const categorySlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchCategoryById.fulfilled, (state, action) => {
-        // Handle single category data
+        state.selectedCategoryId = action.payload.id; // Update this line
         state.loading = false;
       });
   },
 });
+export const { setSelectedCategory } = categorySlice.actions; // Add this line
 
 export default categorySlice.reducer;

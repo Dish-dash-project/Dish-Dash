@@ -1,14 +1,11 @@
 import { Heart } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
-// import { useNavigate } from "react-router-dom"
-import axios from 'axios';
-import { filterProduct } from "../../store/slice/filterProductByQuery.ts"
 import { AppDispatch } from '../../store/store.tsx';
 import { addItem } from '../../store/slice/orderSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store.tsx';
-import { fetchCategories } from "../../store/slice/categorySlice.ts";
+import { advancedSearch } from '../../store/slice/advancedSearchSlice';
 
 
 interface Restaurant {
@@ -28,8 +25,7 @@ interface Restaurant {
 
  
   const { filteredProducts, loading } = useSelector((state: RootState) => state.filterProductByQuery);
-  const { categories } = useSelector((state: RootState) => state.category);
-  const [showAll, setShowAll] = useState(false); // New state to toggle between all and filtered results
+   const { results } = useSelector((state: RootState) => state.advancedSearch);
   const [ordering, setOrdering] = useState<number | null>(null); // Track which item is being ordered
 
 //   const navigate = useNavigate()
@@ -39,14 +35,14 @@ interface Restaurant {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(filterProduct());
-    dispatch(fetchCategories());
-  }, []);
+    dispatch(advancedSearch({})); // Optionally fetch all products initially
+  }, [dispatch]);
   
 
 
 
 
+  
 
   const handleOrder = async (menuItem: Restaurant) => {
     try {
@@ -80,18 +76,19 @@ interface Restaurant {
   if (loading) {
     return <div>Loading...</div>
   }
+  const productsToDisplay = results.length > 0 ? results : filteredProducts;
 
 
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">Recent Order</h2>
-        <a href="#" className="text-[#FFB800] text-sm">
+        <a href="#" className="text-[#FFB800] text-sm" onClick={() =>dispatch(advancedSearch({})) }>
           View all
         </a>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.map((restaurant:any) => (
+        {productsToDisplay.map((restaurant:Restaurant) => (
           <div key={restaurant.id} className="bg-white rounded-xl p-4">
             <div className="relative mb-4">
               <img

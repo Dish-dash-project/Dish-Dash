@@ -5,6 +5,7 @@ import orderReducer from './slice/orderSlice.ts';
 import categoryReducer from './slice/categorySlice.ts';
 import chatReducer from './slice/chatSlice';
 import filterByCategoryReducer from './slice/filterByCategory.ts';
+import  advancedSearch  from './slice/advancedSearchSlice.ts';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,7 +13,8 @@ export const store = configureStore({
     order: orderReducer ,
     category:categoryReducer,
     chat: chatReducer,
-    filterByCategory: filterByCategoryReducer
+    filterByCategory: filterByCategoryReducer,
+    advancedSearch:advancedSearch
   },
 });
 

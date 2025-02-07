@@ -1,10 +1,9 @@
 import { Sidebar } from "./customer_asid"
 import { Navbar } from "./customer_navBar"
 import { CategorySection } from "./category-section"
-// import { PopularDishes } from "./popular-dishes"
 import { RecentOrders } from "./recent-orders"
 import { OrderSummary } from "./order-summary"
-
+// import { PopularDishes } from "./popular-dishes"
 
 export default function HomePage() {
   return (
@@ -13,7 +12,7 @@ export default function HomePage() {
      
       <main className="flex-1 p-8">
         <Navbar />
-
+        
         <div className="mb-8 rounded-2xl bg-[#FFB800] p-6 text-white relative overflow-hidden">
           <div className="relative z-10">
             <h2 className="text-3xl font-bold mb-2">Get Discount Voucher</h2>
@@ -30,6 +29,7 @@ export default function HomePage() {
         <CategorySection />
         {/* <PopularDishes /> */}
         <RecentOrders />
+
       </main>
       <OrderSummary />
     </div>

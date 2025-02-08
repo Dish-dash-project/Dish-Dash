@@ -4,12 +4,12 @@ const { MenuItem } = require('../database/connection'); // Importing the MenuIte
 // Add a new menu item
 exports.addMenuItem = async (req, res) => {
     try {
-        const { name, description, price, imageUrl } = req.body;
+        const { name, description, price, imageUrl,RestaurantId,CategoryId } = req.body;
         if (!name || !price) {
             return res.status(400).json({ message: "Name and price are required" });
         }
         
-        const newMenuItem = await MenuItem.create({ name, description, price, imageUrl });
+        const newMenuItem = await MenuItem.create({ name, description, price, imageUrl ,RestaurantId,CategoryId});
         res.status(201).json(newMenuItem);
     } catch (error) {
         res.status(500).json({ message: "Error creating menu item", error: error.message });

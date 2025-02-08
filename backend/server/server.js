@@ -70,6 +70,8 @@ const orderRoutes = require('../routes/order');
 const orderItemRoutes = require('../routes/orderItem');
 const advancedSearchRouter = require('../routes/advencedSearch'); // Import the advanced search router
 const addressRoutes = require('../routes/address');
+const locationRoutes = require('../routes/location');
+const deliveryRoutes = require('../routes/delevery');
 
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
@@ -79,6 +81,9 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/order', orderItemRoutes);
 app.use('/api/advanced-search', advancedSearchRouter);
 app.use('/api/address', addressRoutes);
+app.use('/api/locations', locationRoutes);
+app.use('/api/deliveries', deliveryRoutes);
+
 // Add these lines after your existing routes
 const chatRoutes = require('../routes/chat');
 const messageRoutes = require('../routes/message');
@@ -162,12 +167,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// Add this after your database connection setup
-// db.sequelize.sync({ alter: true }).then(() => {
-//   console.log('Database synchronized');
-// }).catch(err => {
-//   console.error('Error synchronizing database:', err);
-// });
 
 // Change app.listen to server.listen
 server.listen(PORT, () => {

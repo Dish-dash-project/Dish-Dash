@@ -19,7 +19,6 @@ db.sequelize = sequelize;
 // Import models
 db.User = require('../database/models/user')(sequelize, DataTypes);
 db.Restaurant = require('./models/restaurant')(sequelize, DataTypes);
-db.RestaurantCategory = require('./models/category')(sequelize, DataTypes);
 db.Category = require('./models/category')(sequelize, DataTypes);
 db.MenuItem = require('./models/menumItem')(sequelize, DataTypes);
 db.Order = require('./models/order')(sequelize, DataTypes);
@@ -45,7 +44,6 @@ sequelize
 
 // Restaurant relationships
 db.Restaurant.belongsTo(db.User, { as: 'owner', foreignKey: 'ownerId' });
-db.Restaurant.belongsTo(db.RestaurantCategory, { foreignKey: 'categoryId' });
 db.Restaurant.hasMany(db.Category);
 
 db.Restaurant.hasMany(db.MenuItem);

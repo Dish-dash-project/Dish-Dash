@@ -6,7 +6,34 @@ import { fetchChats, setActiveChat } from '../../../store/slice/chatSlice';
 import { getFullImageUrl } from '../../../utils/imageUtils';
 import { format } from 'date-fns';
 
-const ChatSidebar = () => {
+interface Chat {
+  id: string;
+  participants: Array<{
+    id: string;
+    name: string;
+    imageUrl?: string;
+  }>;
+  messages: Message[];
+  unreadCount: number;
+}
+
+interface Message {
+  id: string;
+  content: string;
+  senderId: string;
+  createdAt: string;
+  sender: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  };
+}
+
+interface ChatSidebarProps {
+  onSelectChat: (chatId: string) => void;
+}
+
+const ChatSidebar = ({ onSelectChat }: ChatSidebarProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.auth.user);
   const { chats, activeChat } = useSelector((state: RootState) => state.chat);
@@ -17,6 +44,7 @@ const ChatSidebar = () => {
 
   const handleChatSelect = (chatId: string) => {
     dispatch(setActiveChat(chatId));
+    onSelectChat(chatId);
   };
 
   const renderChatItem = (chat: Chat) => {

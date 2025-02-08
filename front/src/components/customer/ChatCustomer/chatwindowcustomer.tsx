@@ -7,11 +7,23 @@ import { sendMessage, fetchMessages } from '../../../store/slice/chatSlice';
 import { getFullImageUrl } from '../../../utils/imageUtils';
 import LoadingSpinner from '../../common/LoadingSpinner';
 
+interface Message {
+  id: string;
+  content: string;
+  senderId: string;
+  createdAt: string;
+  sender: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  };
+}
+
 interface ChatWindowProps {
   chatId: string;
 }
 
-const ChatWindow = ({ chatId }: ChatWindowProps) => {
+const ChatWindowcustomer = ({ chatId }: ChatWindowProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const chat = useSelector((state: RootState) => 
     state.chat.chats.find(c => c.id === chatId)
@@ -47,7 +59,7 @@ const ChatWindow = ({ chatId }: ChatWindowProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || isSending) return;
+    if (!newMessage.trim() || isSending || !chatId) return;
 
     setIsSending(true);
     try {
@@ -56,8 +68,10 @@ const ChatWindow = ({ chatId }: ChatWindowProps) => {
         content: newMessage.trim()
       })).unwrap();
       setNewMessage('');
+      scrollToBottom();
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error('Message send failed:', error);
+      // Consider adding error state feedback
     } finally {
       setIsSending(false);
     }
@@ -180,4 +194,4 @@ const ChatWindow = ({ chatId }: ChatWindowProps) => {
   );
 };
 
-export default ChatWindow; 
+export default ChatWindowcustomer; 

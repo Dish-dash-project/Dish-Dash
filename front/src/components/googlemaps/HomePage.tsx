@@ -22,7 +22,7 @@ interface Place {
   coordinates: Coordinates;
 }
 
-function HomePage() {
+function LocationMap() {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string>('');
@@ -142,9 +142,9 @@ function HomePage() {
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
             <Globe className="text-yellow-500 h-8 w-8" />
-            Location Explorer
+            Delivery Location
           </h1>
-          <p className="text-gray-600">Discover places around the world</p>
+          <p className="text-gray-600">Select your delivery location</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -232,4 +232,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default LocationMap;

@@ -9,6 +9,7 @@ import AuthPersist from './FeaturesAuth/AuthPersist';
 import { AuthPage } from './FeaturesAuth/auth';
 import ErrorBoundary from './Components/common/ErrorBoundary';
 import Map from './Components/googlemaps/HomePage';
+import ProfileCustomer from "./Components/customer/ProfileCustomer"
 
 // Create a ProtectedRoute component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -39,6 +40,7 @@ function App() {
           <Routes>
             <Route path="/map" element={<Map />} />
             <Route path="/" element={<Navigate to="/home_driver" />} />
+        
             <Route path="/login" element={<AuthPage />} />
             <Route path="/register" element={<AuthPage />} />
             <Route 
@@ -65,6 +67,17 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+
+<Route 
+              path="/profiles" 
+              element={
+                <ProtectedRoute>
+                  <ProfileCustomer />
+                </ProtectedRoute>
+              } 
+            />
+
+
           </Routes>
         </AuthPersist>
       </Router>

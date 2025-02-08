@@ -1,7 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
     const Delivery = sequelize.define('Delivery', {
-        
- 
+        orderId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        driverId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         status: {
             type: DataTypes.ENUM(
                 'PENDING',           // Waiting for driver assignment
@@ -46,19 +52,37 @@ module.exports = (sequelize, DataTypes) => {
             comment: 'Estimated duration in minutes'
         },
         currentLocation: {
-            type: DataTypes.JSON,
+            type: DataTypes.STRING,
             allowNull: true,
-            comment: 'Current driver location {lat, lng}'
+            get() {
+                const rawValue = this.getDataValue('currentLocation');
+                return rawValue ? JSON.parse(rawValue) : null;
+            },
+            set(value) {
+                this.setDataValue('currentLocation', value ? JSON.stringify(value) : null);
+            }
         },
         pickupLocation: {
-            type: DataTypes.JSON,
-            allowNull: false,
-            comment: 'Restaurant location {lat, lng, address}'
+            type: DataTypes.STRING,
+            allowNull: true,
+            get() {
+                const rawValue = this.getDataValue('pickupLocation');
+                return rawValue ? JSON.parse(rawValue) : null;
+            },
+            set(value) {
+                this.setDataValue('pickupLocation', value ? JSON.stringify(value) : null);
+            }
         },
         deliveryLocation: {
-            type: DataTypes.JSON,
-            allowNull: false,
-            comment: 'Customer delivery location {lat, lng, address}'
+            type: DataTypes.STRING,
+            allowNull: true,
+            get() {
+                const rawValue = this.getDataValue('deliveryLocation');
+                return rawValue ? JSON.parse(rawValue) : null;
+            },
+            set(value) {
+                this.setDataValue('deliveryLocation', value ? JSON.stringify(value) : null);
+            }
         },
         deliveryNotes: {
             type: DataTypes.TEXT,

@@ -3,12 +3,12 @@ const {Restaurant} = require('../database/connection'); // Importing the Restaur
 // Add a new restaurant
 exports.addRestaurant = async (req, res) => {
     try {
-        const { name, description, imageUrl } = req.body;
+        const { name, description, imageUrl ,ownerId} = req.body;
         if (!name || !description || !imageUrl) {
             return res.status(400).json({ message: "All fields are required" });
         }
         
-        const newRestaurant = await Restaurant.create({ name, description, imageUrl });
+        const newRestaurant = await Restaurant.create({ name, description, imageUrl ,ownerId});
         res.status(201).json(newRestaurant);
     } catch (error) {
         res.status(500).json({ message: "Error creating restaurant", error: error.message });

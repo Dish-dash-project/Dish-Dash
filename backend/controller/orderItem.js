@@ -15,7 +15,7 @@ const orderItemController = {
             const orderItem = await OrderItem.create({
                 MenuItemId:menuItemId,
                 quantity,
-                price: product.price
+                price: price
             });
 
 

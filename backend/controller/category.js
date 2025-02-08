@@ -3,12 +3,12 @@ const { Category } = require('../database/connection'); // Importing the Categor
 // Add a new category
 exports.addCategory = async (req, res) => {
     try {
-        const { name, imageUrl } = req.body;
+        const { name, imageUrl ,RestaurantId} = req.body;
         if (!name || !imageUrl) {
             return res.status(400).json({ message: "All fields are required" });
         }
         
-        const newCategory = await Category.create({ name, imageUrl });
+        const newCategory = await Category.create({ name, imageUrl,RestaurantId });
         res.status(201).json(newCategory);
     } catch (error) {
         res.status(500).json({ message: "Error creating category", error: error.message });
